@@ -1,0 +1,17 @@
+services:
+  kickbid_db:
+    image: postgres:17
+    container_name: kickbid_pg
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: kickbid_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - kickbid_data:/var/lib/postgresql/data
+
+volumes:
+  kickbid_data:
+
