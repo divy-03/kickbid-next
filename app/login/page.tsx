@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { authClient } from "@/utils/auth-client"
 
-export default function SingupPage() {
+export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const handleSignUp = async () => {
-    const { data, error } = await authClient.signUp.email({
-      name,
+  const handleLogin = async () => {
+    const { data, error } = await authClient.signIn.email({
       email,
       password,
+      callbackURL: "/"
     }, {
       onRequest: () => {
         setLoading(true);
@@ -36,15 +36,14 @@ export default function SingupPage() {
 
   return (
     <div>
-      <h1>Singup Page</h1>
+      <h1>Login Page</h1>
 
-      <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
       <br />
       <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <br />
       <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <br />
-      <button onClick={handleSignUp} disabled={loading}>Sign Up</button>
+      <button onClick={handleLogin} disabled={loading}>Login</button>
 
     </div>
   )
