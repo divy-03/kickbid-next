@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kickbid
 
-## Getting Started
+KickBid will allow students to register as players, be rated based on their skills, and participate in an auction in which captains bid to form their teams. The platform provides real-time updates, team statistics, and tournament schedules, enhancing the experience for both players and spectators. It also offers an admin dashboard for managing events and ratings.
 
-First, run the development server:
+## Steps to setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Clone Repo
+
+Clone this repo and install dependencies
+
+```
+git clone https://github.com/divy-03/kickbid-next
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Set env variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+copy and set environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+cp .env.example .env
+```
 
-## Learn More
+### Connect to database
 
-To learn more about Next.js, take a look at the following resources:
+use docker compose to start a postgres server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+docker compose up -d
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prisma Client Generate
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+bunx --bun prisma generate
+```
