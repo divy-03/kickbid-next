@@ -28,6 +28,7 @@ export default function SingupPage() {
       name,
       email,
       password,
+      callbackURL: "/"
     }, {
       onRequest: () => {
         setLoading(true);
