@@ -4,6 +4,8 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 // If your Prisma file is located elsewhere, you can change the path
 import { PrismaClient } from "@/prisma/generated/client";
 import { PrismaPg } from "@prisma/adapter-pg"
+import { resend } from "./resend";
+import { EmailTemplate } from "@/components/EmailTemplate";
 
 const connectionString = `${process.env.DATABASE_URL}`
 
@@ -18,7 +20,18 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: false,
+    requireEmailVerification: true,
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url, token }, request) => {
+      await resend.emails.send({
+        from: "KickBid <onboarding@resend.dev>",
+        to: [user.email],
+        subject: "Verify your email",
+        react: EmailTemplate({ user, url })
+      })
+    }
   },
   plugins: [nextCookies()],
 });
