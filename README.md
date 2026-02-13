@@ -10,12 +10,13 @@ Clone this repo and install dependencies
 
 ```
 git clone https://github.com/divy-03/kickbid-next
+cd kickbid-next
 bun install
 ```
 
 ### Set env variables
 
-copy and set environment variables
+copy and set environment variables in .env
 
 ```
 cp .env.example .env
@@ -29,8 +30,8 @@ use docker compose to start a postgres server
 docker compose up -d
 ```
 
-### Prisma Client Generate
+### Setup database & generate Prisma client
 
 ```
-bunx --bun prisma generate
+bunx --bun prisma migrate dev
 ```
