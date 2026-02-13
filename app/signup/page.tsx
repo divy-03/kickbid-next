@@ -2,6 +2,20 @@
 
 import { useState } from "react";
 import { authClient } from "@/utils/auth-client"
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function SingupPage() {
   const [loading, setLoading] = useState(false);
@@ -35,18 +49,63 @@ export default function SingupPage() {
   if (loading) return <h1>Loading</h1>
 
   return (
-    <div>
-      <h1>Singup Page</h1>
-
-      <input placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-      <br />
-      <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <br />
-      <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <br />
-      <button onClick={handleSignUp} disabled={loading}>Sign Up</button>
-
-    </div>
-  )
+    <div className="w-screen h-screen flex items-center justify-center">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Create your account</CardTitle>
+          <CardDescription>
+            Enter below details to get started
+          </CardDescription>
+          <CardAction>
+            <Button variant="link"><Link href="/login">Login</Link></Button>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="name"
+                  placeholder="Username"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="mail@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required />
+              </div>
+            </div>
+          </form>
+        </CardContent>
+        <CardFooter className="flex-col gap-2">
+          <Button type="submit" onClick={handleSignUp} className="w-full">
+            Sign Up
+          </Button>
+        </CardFooter>
+      </Card>
+    </div >)
 }
 
