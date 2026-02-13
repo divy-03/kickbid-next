@@ -1,7 +1,8 @@
 import { betterAuth } from "better-auth/minimal";
+import { nextCookies } from "better-auth/next-js";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 // If your Prisma file is located elsewhere, you can change the path
-import { PrismaClient } from "@/app/generated/prisma/client";
+import { PrismaClient } from "@/prisma/generated/client";
 import { PrismaPg } from "@prisma/adapter-pg"
 
 const connectionString = `${process.env.DATABASE_URL}`
@@ -17,5 +18,7 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
-  }
+    requireEmailVerification: false,
+  },
+  plugins: [nextCookies()],
 });
