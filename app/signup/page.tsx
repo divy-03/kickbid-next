@@ -34,7 +34,7 @@ export default function SingupPage() {
         setLoading(true);
       },
       onSuccess: () => {
-        alert("Singup success");
+        alert("Singup successful");
         setLoading(false);
       },
       onError: (ctx) => {

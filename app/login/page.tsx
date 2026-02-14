@@ -32,11 +32,14 @@ export default function LoginPage() {
         setLoading(true);
       },
       onSuccess: () => {
-        alert("Singup success");
+        alert("Login successful");
         setLoading(false);
       },
       onError: (ctx) => {
         alert(ctx.error.message);
+        if (ctx.error.status === 403) {
+          alert("Please verify your email address");
+        }
         setLoading(false);
       }
     })
@@ -53,7 +56,7 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your credentials below
           </CardDescription>
           <CardAction>
             <Button variant="link"><Link href="/signup">Sign Up</Link></Button>
@@ -77,7 +80,7 @@ export default function LoginPage() {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <a
-                    href="#"
+                    href="/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?

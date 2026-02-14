@@ -1,7 +1,6 @@
 import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-// If your Prisma file is located elsewhere, you can change the path
 import { PrismaClient } from "@/prisma/generated/client";
 import { PrismaPg } from "@prisma/adapter-pg"
 import { resend } from "./resend";
@@ -21,17 +20,26 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      void resend.emails.send({
+        from: "KickBid <no-reply@divydev.xyz>",
+        to: [user.email],
+        subject: "Reset your password",
+        react: EmailTemplate({ user, url, type: 2 })
+      });
+    }
   },
   emailVerification: {
     sendOnSignUp: true,
-    sendVerificationEmail: async ({ user, url, token }, request) => {
-      await resend.emails.send({
-        from: "KickBid <onboarding@resend.dev>",
+    sendVerificationEmail: async ({ user, url }) => {
+      void resend.emails.send({
+        from: "KickBid <no-reply@divydev.xyz>",
         to: [user.email],
         subject: "Verify your email",
-        react: EmailTemplate({ user, url })
+        react: EmailTemplate({ user, url, type: 1 })
       })
-    }
+    },
+    autoSignInAfterVerification: true,
   },
   plugins: [nextCookies()],
 });
