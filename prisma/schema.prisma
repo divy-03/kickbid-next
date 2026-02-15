@@ -72,3 +72,13 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+model PlayerProfile {
+  id        String    @id
+  rating    Int
+  position  String
+
+  // Relations
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

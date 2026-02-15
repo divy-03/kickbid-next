@@ -1,19 +1,18 @@
-"use client";
-
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { ModeToggleBtn } from "./ModeToggleBtn";
+import { Button } from "../ui/button";
+import { ModeToggleBtn } from "../ModeToggleBtn";
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
   SheetTitle,
   SheetDescription,
-} from "./ui/sheet";
+} from "../ui/sheet";
 import { Menu } from "lucide-react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { UserMenu } from "./UserMenu";
 
-export default function Navbar() {
+export default async function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/70 backdrop-blur-md supports-[backdrop-filter]:bg-background/50 transition-all">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
@@ -27,12 +26,7 @@ export default function Navbar() {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="outline" asChild>
-            <Link href="/signup">Sign Up</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/login">Log In</Link>
-          </Button>
+          <UserMenu />
           <ModeToggleBtn />
         </div>
 
@@ -48,7 +42,7 @@ export default function Navbar() {
             </SheetTrigger>
 
             <SheetContent side="right" className="pt-10">
-              {/* Accessibility (hidden but present) */}
+              {/* Accessibility */}
               <VisuallyHidden>
                 <SheetTitle>Navigation Menu</SheetTitle>
                 <SheetDescription>
@@ -58,11 +52,10 @@ export default function Navbar() {
 
               {/* Mobile Nav Items */}
               <div className="flex flex-col gap-4 p-5">
-                <Button variant="outline" asChild>
+                <Button variant="outline" className="w-full" asChild>
                   <Link href="/signup">Sign Up</Link>
                 </Button>
-
-                <Button asChild>
+                <Button className="w-full" asChild>
                   <Link href="/login">Log In</Link>
                 </Button>
               </div>
