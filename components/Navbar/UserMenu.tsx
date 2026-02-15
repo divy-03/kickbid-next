@@ -45,7 +45,8 @@ export async function UserMenu() {
             <DropdownMenuGroup>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuItem>
-                Profile
+                <Link href={"/profile"}>Profile
+                </Link>
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuItem>
@@ -66,8 +67,8 @@ export async function UserMenu() {
         </DropdownMenu>
 
       ) : (
-        <div className="hidden md:flex items-center gap-3">
-          <Button variant="outline" asChild>
+        <div className="flex items-center gap-3">
+          <Button variant="outline" className="hidden md:flex" asChild>
             <Link href="/signup">Sign Up</Link>
           </Button>
           <Button asChild>

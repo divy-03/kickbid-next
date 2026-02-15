@@ -50,15 +50,7 @@ export default async function Navbar() {
                 </SheetDescription>
               </VisuallyHidden>
 
-              {/* Mobile Nav Items */}
-              <div className="flex flex-col gap-4 p-5">
-                <Button variant="outline" className="w-full" asChild>
-                  <Link href="/signup">Sign Up</Link>
-                </Button>
-                <Button className="w-full" asChild>
-                  <Link href="/login">Log In</Link>
-                </Button>
-              </div>
+              <UserMenu />
             </SheetContent>
           </Sheet>
         </div>
