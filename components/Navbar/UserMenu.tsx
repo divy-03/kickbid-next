@@ -44,11 +44,11 @@ export async function UserMenu() {
           <DropdownMenuContent className="w-40" align="start">
             <DropdownMenuGroup>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuItem>
-                <Link href={"/profile"}>Profile
-                </Link>
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              <Link href={"/profile"}>
+                <DropdownMenuItem>Profile
+                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 Settings
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>

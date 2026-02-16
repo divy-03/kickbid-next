@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Loader2 } from "lucide-react";
 
 export default function SingupPage() {
   const [loading, setLoading] = useState(false);
@@ -46,8 +47,6 @@ export default function SingupPage() {
     console.log(data);
     console.log(error);
   }
-
-  if (loading) return <h1>Loading</h1>
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">
@@ -102,8 +101,8 @@ export default function SingupPage() {
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" onClick={handleSignUp} className="w-full">
-            Sign Up
+          <Button type="submit" onClick={handleSignUp} disabled={loading} className="w-full">
+            {loading === false ? ("Sign Up") : (<Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />)}
           </Button>
         </CardFooter>
       </Card>

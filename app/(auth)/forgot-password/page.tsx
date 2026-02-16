@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Loader2 } from "lucide-react";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
@@ -45,8 +46,6 @@ export default function ForgotPasswordPage() {
     console.log(data);
     console.log(error);
   }
-
-  if (loading) return <h1>Loading</h1>
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">
@@ -78,8 +77,8 @@ export default function ForgotPasswordPage() {
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" onClick={handleForgotPassword} className="w-full">
-            Request Email
+          <Button type="submit" onClick={handleForgotPassword} disabled={loading} className="w-full">
+            {loading === false ? ("Request Email") : (<Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />)}
           </Button>
         </CardFooter>
       </Card>
