@@ -20,6 +20,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  playerProfile PlayerProfile?
 
   @@unique([email])
   @@map("user")
@@ -79,6 +80,6 @@ model PlayerProfile {
   position  String
 
   // Relations
-  userId    String
+  userId    String    @unique
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
