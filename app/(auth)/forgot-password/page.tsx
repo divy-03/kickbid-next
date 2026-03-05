@@ -17,27 +17,31 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
 
   const handleForgotPassword = async () => {
-    const { data, error } = await authClient.requestPasswordReset({
+    let toastId: string | number | undefined;
+    const { data, error } = await authClient.requestPasswordReset({ // TODO: Remove {data, error} if not being used.
       email,
       redirectTo: `http://localhost:3000/reset-password`,
     }, {
       onRequest: () => {
         setLoading(true);
+        toastId = toast.loading("Sending Reset password request...")
       },
       onSuccess: () => {
-        alert("Reset Password request sent successfully");
+        if (toastId) toast.success("Reset Password request sent successfully", { id: toastId });
         setLoading(false);
       },
       onError: (ctx) => {
-        alert(ctx.error.message);
+        if (toastId) toast.error(ctx.error.message, { id: toastId });
+        else toast.error(ctx.error.message);
         if (ctx.error.status === 403) {
-          alert("Please verify your email address");
+          toast.error("Please verify your email address");
         }
         setLoading(false);
       }

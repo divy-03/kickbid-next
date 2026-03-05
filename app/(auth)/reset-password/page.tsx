@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ export default function ResetPasswordPage() {
 
   const handleReset = async () => {
     if (!token) {
-      alert("Invalid or missing token");
+      toast.error("Invalid or missing token");
       return;
     }
 
@@ -40,12 +41,12 @@ export default function ResetPasswordPage() {
         setLoading(true);
       },
       onSuccess: () => {
-        alert("Password Set Successfully")
+        toast.success("Password Set Successfully")
       },
       onError: (ctx) => {
-        alert(ctx.error.message);
+        toast.error(ctx.error.message);
         if (ctx.error.status === 403) {
-          alert("Token Expired");
+          toast.error("Token Expired");
         }
         setLoading(false);
       }

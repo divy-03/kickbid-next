@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -24,29 +25,29 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const { data, error } = await authClient.signIn.email({
+    let toastId: string | number | undefined;
+    await authClient.signIn.email({
       email,
       password,
       callbackURL: "/"
     }, {
       onRequest: () => {
         setLoading(true);
+        toastId = toast.loading("Logging In");
       },
       onSuccess: () => {
-        alert("Login successful");
+        if (toastId) toast.success("Login successful", { id: toastId });
         setLoading(false);
       },
       onError: (ctx) => {
-        alert(ctx.error.message);
+        if (toastId) toast.error(ctx.error.message, { id: toastId });
+        else toast.error(ctx.error.message);
         if (ctx.error.status === 403) {
-          alert("Please verify your email address");
+          toast.error("Please verify your email address");
         }
         setLoading(false);
       }
     })
-
-    console.log(data);
-    console.log(error);
   }
 
 

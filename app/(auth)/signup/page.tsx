@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function SingupPage() {
   const [loading, setLoading] = useState(false);
@@ -25,7 +26,8 @@ export default function SingupPage() {
   const [name, setName] = useState("");
 
   const handleSignUp = async () => {
-    const { data, error } = await authClient.signUp.email({
+    let toastId: string | number | undefined;
+    const { data, error } = await authClient.signUp.email({ // TODO: Remove {data, error} if not being used.
       name,
       email,
       password,
@@ -33,13 +35,15 @@ export default function SingupPage() {
     }, {
       onRequest: () => {
         setLoading(true);
+        toastId = toast.loading("Signing Up...");
       },
       onSuccess: () => {
-        alert("Singup successful");
+        if (toastId) toast.success("Singup successful", { id: toastId });
         setLoading(false);
       },
       onError: (ctx) => {
-        alert(ctx.error.message);
+        if (toastId) toast.error(ctx.error.message, { id: toastId });
+        else toast.error(ctx.error.message);
         setLoading(false);
       }
     })
