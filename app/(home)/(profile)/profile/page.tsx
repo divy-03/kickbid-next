@@ -9,13 +9,14 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty"
+import { CreateProfileDialog } from "./components";
 
 export default async function ProfilePage() {
-  const session = await getMyProfile();
-  console.log("user", session);
+  const profile = await getMyProfile();
+  console.log("user", profile); // NOTE: the profile is null in start beacause profile is not created now.
   return (
     <div>
-      {session ? (
+      {profile ? (
         <div>
           Profile
         </div>
@@ -30,7 +31,9 @@ export default async function ProfilePage() {
               You haven&apos;t created your player profile yet</EmptyDescription>
           </EmptyHeader>
           <EmptyContent className="flex-row justify-center gap-2">
-            <Button>Create Profile</Button>
+            <CreateProfileDialog
+              trigger={<Button>Create Profile</Button>}
+            />
           </EmptyContent>
         </Empty>
       )

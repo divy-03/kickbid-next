@@ -75,9 +75,11 @@ model Verification {
 }
 
 model PlayerProfile {
-  id        String    @id
+  id        String    @id @default(cuid())
   rating    Int
   position  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
   userId    String    @unique
