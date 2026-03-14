@@ -51,7 +51,7 @@ export function CreateProfileDialog({
           </DialogDescription>
         </DialogHeader>
         <form
-          onSubmit={handleSubmit(
+          onSubmit={handleSubmit( // NOTE: Use handleSubmit(onsubmit) for no debugging and consoles
             (data) => {
               console.log("VALID SUBMIT", data);
               onSubmit(data);
