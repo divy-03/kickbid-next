@@ -1,14 +1,13 @@
 "use server";
 
-import { auth } from "@/utils/auth";
-import { headers } from "next/headers";
 import { prisma } from "../prisma";
 import { AddPlayerProfileSchema } from "../zod";
 import { resError, resSuccess } from "../reponse";
+import { getUserSession } from "../utils";
 
 export const getMyProfile = async () => {
   try {
-    const session = await auth.api.getSession({ headers: await headers() });
+    const session = await getUserSession();
     if (!session) return resError("Unauthorized");
 
     const playerProfile = await prisma.playerProfile.findUnique({
@@ -31,7 +30,7 @@ export const createProfile = async (data: AddPlayerProfileSchema) => {
   try {
     const position = data.position as string;
     const rating = data.rating as number;
-    const session = await auth.api.getSession({ headers: await headers() });
+    const session = await getUserSession();
     if (!session?.user?.id) {
       return resError("Unauthorized");
     }
