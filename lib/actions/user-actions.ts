@@ -3,7 +3,7 @@
 import { prisma } from "../prisma";
 import { AddPlayerProfileSchema } from "../zod";
 import { resError, resSuccess } from "../reponse";
-import { getUserSession } from "../utils";
+import { getUserSession } from "../helpers";
 
 export const getMyProfile = async () => {
   try {
