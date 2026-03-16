@@ -8,8 +8,9 @@ export const getUserSession = async () => {
   });
 
   if (!session?.user?.id) {
-    throw new Error("Unauthorized");
+    return null;
   }
 
   return session;
 };
+
