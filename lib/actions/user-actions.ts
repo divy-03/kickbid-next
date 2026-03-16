@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "../prisma";
-import { AddPlayerProfileSchema } from "../zod";
+import { addPlayerProfileSchema, AddPlayerProfileSchema } from "../zod";
 import { resError, resSuccess } from "../reponse";
 import { getUserSession } from "../helpers";
 
@@ -28,8 +28,7 @@ export const getMyProfile = async () => {
 
 export const createProfile = async (data: AddPlayerProfileSchema) => {
   try {
-    const position = data.position as string;
-    const rating = data.rating as number;
+    const parsed = addPlayerProfileSchema.parse(data); // NOTE: Should I use parse() or safeParse()
     const session = await getUserSession();
     if (!session?.user?.id) {
       return resError("Unauthorized");
@@ -44,8 +43,8 @@ export const createProfile = async (data: AddPlayerProfileSchema) => {
     }
     const newProfile = await prisma.playerProfile.create({
       data: {
-        rating,
-        position,
+        rating: parsed.rating,
+        position: parsed.position,
         user: {
           connect: {
             id: session!.user.id
