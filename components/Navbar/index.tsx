@@ -25,35 +25,35 @@ export default async function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <UserMenu />
           <ModeToggleBtn />
         </div>
 
         {/* Mobile */}
-        <div className="md:hidden flex items-center gap-2">
-          <ModeToggleBtn />
-
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon">
-                <Menu className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-
-            <SheetContent side="right" className="pt-10">
-              {/* Accessibility */}
-              <VisuallyHidden>
-                <SheetTitle>Navigation Menu</SheetTitle>
-                <SheetDescription>
-                  Access authentication and navigation links
-                </SheetDescription>
-              </VisuallyHidden>
-
-              <UserMenu />
-            </SheetContent>
-          </Sheet>
-        </div>
+        {/* <div className="md:hidden flex items-center gap-2"> */}
+        {/*   <ModeToggleBtn /> */}
+        {/**/}
+        {/*   <Sheet> */}
+        {/*     <SheetTrigger asChild> */}
+        {/*       <Button variant="outline" size="icon"> */}
+        {/*         <Menu className="h-5 w-5" /> */}
+        {/*       </Button> */}
+        {/*     </SheetTrigger> */}
+        {/**/}
+        {/*     <SheetContent side="right" className="pt-10"> */}
+        {/*       {/* Accessibility */}
+        {/*       <VisuallyHidden> */}
+        {/*         <SheetTitle>Navigation Menu</SheetTitle> */}
+        {/*         <SheetDescription> */}
+        {/*           Access authentication and navigation links */}
+        {/*         </SheetDescription> */}
+        {/*       </VisuallyHidden> */}
+        {/**/}
+        {/*       <UserMenu /> */}
+        {/*     </SheetContent> */}
+        {/*   </Sheet> */}
+        {/* </div> */}
       </div>
     </nav>
   );
