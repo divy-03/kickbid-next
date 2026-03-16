@@ -10,16 +10,16 @@ export const getMyProfile = async () => {
     const session = await getUserSession();
     if (!session) return resError("Unauthorized");
 
-    const playerProfile = await prisma.playerProfile.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
-        userId: session.user.id
+        id: session.user.id
+      },
+      include: {
+        playerProfile: true,
       }
     })
-    const profile = {
-      user: session.user,
-      playerProfile
-    }
-    return resSuccess(profile);
+    if (!user) return resError("User not found");
+    return resSuccess(user);
   } catch (error) {
     console.log(error);
     return resError("Something went wrong while fetching profile");

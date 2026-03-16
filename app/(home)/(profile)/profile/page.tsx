@@ -12,13 +12,14 @@ import {
 import { CreateProfileDialog } from "./components";
 
 export default async function ProfilePage() {
-  const profile = await getMyProfile();
+  const res = await getMyProfile();
+  const profile = res.data;
   console.log("user", profile); // NOTE: the profile is null in start beacause profile is not created now.
   return (
     <div>
-      {profile ? (
-        <div>
-          Profile
+      {profile && profile.playerProfile ? (
+        <div className="">
+          {profile.playerProfile.position}
         </div>
       ) : (
         <Empty>
