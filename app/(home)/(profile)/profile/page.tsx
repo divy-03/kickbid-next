@@ -13,6 +13,14 @@ import { CreateProfileDialog } from "./components";
 
 export default async function ProfilePage() {
   const res = await getMyProfile();
+
+  if (!res.success) {
+    return (
+      <div className="p-6 text-red-500">
+        {res.error}
+      </div>
+    );
+  }
   const profile = res.data;
   console.log("user", profile); // NOTE: the profile is null in start beacause profile is not created now.
   return (
