@@ -9,14 +9,14 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty"
-import { CreateProfileDialog } from "./components";
+import ProfileCard, { CreateProfileDialog } from "./components";
 
 export default async function ProfilePage() {
   const res = await getMyProfile();
 
   if (!res.success) {
     return (
-      <div className="p-6 text-red-500">
+      <div className="flex items-center justify-center p-6 text-red-500">
         {res.error}
       </div>
     );
@@ -26,8 +26,8 @@ export default async function ProfilePage() {
   return (
     <div>
       {profile && profile.playerProfile ? (
-        <div className="">
-          {profile.playerProfile.position}
+        <div className="max-w-3xl mx-auto p-6">
+          <ProfileCard user={profile} />
         </div>
       ) : (
         <Empty>

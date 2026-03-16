@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addPlayerProfileSchema, AddPlayerProfileSchema } from "@/lib/zod"
 import { createProfile } from "@/lib/actions/user-actions";
 import { toast } from "sonner";
+import NextImage from "next/image";
 
 export function CreateProfileDialog({
   trigger,
@@ -87,3 +88,56 @@ export function CreateProfileDialog({
   );
 }
 
+type Props = {
+  user: {
+    name: string;
+    email: string;
+    image?: string | null;
+    playerProfile?: {
+      rating: number;
+      position: string;
+    } | null;
+  };
+};
+
+export default function ProfileCard({ user }: Props) {
+  return (
+    <div className="border bg-gray-900 rounded-xl p-6 space-y-4 shadow-sm">
+
+      <div className="flex items-center gap-4">
+        <NextImage
+          src={user.image ?? `https://ui-avatars.com/api/?name=${user.name ?? user.email![0]}`}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full cursor-pointer"
+          width={32}
+          height={32}
+        />
+        <div>
+          <h2 className="text-xl font-semibold">{user.name}</h2>
+          <p className="text-sm text-muted-foreground">{user.email}</p>
+        </div>
+      </div>
+
+      {user.playerProfile ? (
+        <div className="border-t pt-4 space-y-2">
+
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Position</span>
+            <span className="font-medium">{user.playerProfile.position}</span>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Rating</span>
+            <span className="font-medium">{user.playerProfile.rating}</span>
+          </div>
+
+        </div>
+      ) : (
+        <div className="border-t pt-4 text-sm text-muted-foreground">
+          No player profile created yet.
+        </div>
+      )}
+
+    </div>
+  );
+}
