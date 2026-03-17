@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "../prisma";
-import { addPlayerProfileSchema, AddPlayerProfileSchema } from "../zod";
+import { addPlayerProfileSchema, AddPlayerProfileSchema, UpdateProfileSchema } from "../zod";
 import { resError, resSuccess } from "../response";
 import { getUserSession } from "../helpers";
 
@@ -58,3 +58,44 @@ export const createProfile = async (data: AddPlayerProfileSchema) => {
     return resError("Something went wrong while creating profile")
   }
 }
+
+export const updateProfile = async (data: UpdateProfileSchema) => {
+  try {
+    const session = await getUserSession();
+
+    if (!session) {
+      return resError("Unauthorized");
+    }
+    const userId = session.user.id;
+    const { name, image, rating, position } = data;
+
+    const res = await prisma.$transaction(async (tx) => {
+      if (name || image) {
+        await tx.user.update({
+          where: { id: userId },
+          data: {
+            ...(name && { name }),
+            ...(image && { image })
+          }
+        });
+      }
+
+      if (rating !== undefined || position) {
+        await tx.playerProfile.update({
+          where: { userId },
+          data: {
+            ...(rating !== undefined && { rating }),
+            ...(position && { position })
+          }
+        });
+      }
+
+      return true;
+    });
+
+    return resSuccess("Profile updated");
+  } catch (error) {
+    console.log(error);
+    return resError("Failed to update profile");
+  }
+};
