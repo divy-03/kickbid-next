@@ -1,0 +1,39 @@
+# dependencies
+node_modules
+bun.lockb.tmp
+.pnpm-store
+
+# next.js build output
+.next
+out
+dist
+build
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+bun-debug.log*
+
+# environment files (IMPORTANT)
+.env
+.env.local
+.env.development
+.env.production
+
+# git
+.git
+.gitignore
+
+# docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# misc
+README.md
+LICENSE
+
+# OS files
+.DS_Store
+Thumbs.db
