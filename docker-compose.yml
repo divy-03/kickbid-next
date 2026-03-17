@@ -1,4 +1,22 @@
 services:
+  app:
+    build: .
+    container_name: kickbid_app
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env.development
+    environment:
+      DATABASE_URL: postgresql://postgres:password@kickbid_db:5432/kickbid
+      NODE_ENV: development
+    depends_on:
+      - kickbid_db
+    command: bun run dev
+
   kickbid_db:
     image: postgres:17
     container_name: kickbid_pg
