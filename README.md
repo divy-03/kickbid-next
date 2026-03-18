@@ -16,22 +16,25 @@ bun install
 
 ### Set env variables
 
-copy and set environment variables in .env
+copy and set environment variables in .env (.env.development if using docker compose to setup)
 
 ```
 cp .env.example .env
+cp .env.example .env.development
 ```
 
 ### Connect to database
 
-use docker compose to start a postgres server
+use docker compose to start a postgres server, and bun next app
 
 ```
-docker compose up -d
+docker compose up
 ```
 
 ### Setup database & generate Prisma client
 
+run database migration manually in docker container
+
 ```
-bunx --bun prisma migrate dev
+docker exec -it kickbid_app bunx --bun prisma migrate dev
 ```
