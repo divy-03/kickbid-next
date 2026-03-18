@@ -5,15 +5,9 @@ services:
     restart: always
     ports:
       - "3000:3000"
-    develop:
-      watch:
-        - action: sync
-          path: ./
-          target: /app
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: package.json
+    volumes:
+      - .:/app
+      - /app/node_modules
     env_file:
       - .env.development
     environment:
@@ -21,7 +15,7 @@ services:
       NODE_ENV: development
     depends_on:
       - kickbid_db
-    command: sh -c "bunx --bun prisma generate && bun run dev"
+    command: bun run dev
 
   kickbid_db:
     image: postgres:17
