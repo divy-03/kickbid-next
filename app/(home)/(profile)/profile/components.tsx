@@ -20,6 +20,8 @@ import { addPlayerProfileSchema, AddPlayerProfileSchema, updateProfileSchema, Up
 import { createProfile, updateProfile } from "@/lib/actions/user-actions";
 import { toast } from "sonner";
 import NextImage from "next/image";
+import { useState } from "react";
+import { getUploadUrl } from "@/lib/s3-helpers";
 
 export function CreateProfileDialog({
   trigger,
@@ -164,6 +166,8 @@ type UpdateProps = {
 };
 
 export function UpdateProfileDialog({ trigger, defaultValues }: UpdateProps) {
+
+  const [file, setFile] = useState<File | null>(null);
   const {
     register,
     handleSubmit,
@@ -176,14 +180,35 @@ export function UpdateProfileDialog({ trigger, defaultValues }: UpdateProps) {
   const onSubmit = async (data: UpdateProfileSchema) => {
     const toastId = toast.loading("Updating Profile...");
 
-    const res = await updateProfile(data);
+    try {
+      let imageKey = data.image;
 
-    if (!res.success) {
-      toast.error(res.error, { id: toastId });
-      return;
+      if (file) {
+        const { uploadUrl, key } = await getUploadUrl(file.type);
+
+        await fetch(uploadUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": file.type,
+          },
+          body: file,
+        });
+
+        imageKey = key;
+      }
+
+      const res = await updateProfile({ ...data, image: imageKey });
+
+      if (!res.success) {
+        toast.error(res.error, { id: toastId });
+        return;
+      }
+
+      toast.success("Profile Updated", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong", { id: toastId });
     }
-
-    toast.success("Profile Updated", { id: toastId });
   };
 
   return (
@@ -214,7 +239,12 @@ export function UpdateProfileDialog({ trigger, defaultValues }: UpdateProps) {
             {/* IMAGE */}
             <Field>
               <Label htmlFor="image">Image URL</Label>
-              <Input id="image" {...register("image")} />
+              <Input
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={(e) => setFile(e.target.files?.[0] || null)}
+              />
             </Field>
 
             {/* POSITION */}
