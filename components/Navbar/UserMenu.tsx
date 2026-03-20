@@ -13,10 +13,13 @@ import { auth } from "@/utils/auth"
 import { headers } from "next/headers"
 import Link from "next/link"
 import NextImage from "next/image";
+import { getMyProfile } from "@/lib/actions/user-actions"
 
 export async function UserMenu() {
   const session = await auth.api.getSession({ headers: await headers() });
   const user = session?.user;
+
+  const profile = await getMyProfile();
 
 
   const handleLogout = async () => {
@@ -33,7 +36,7 @@ export async function UserMenu() {
           <DropdownMenuTrigger asChild>
             <div className="flex items-center gap-2">
               <NextImage
-                src={user.image ?? `https://ui-avatars.com/api/?name=${user.name ?? user.email![0]}`}
+                src={profile?.data?.image ?? `https://ui-avatars.com/api/?name=${user.name ?? user.email![0]}`}
                 alt="User Avatar"
                 className="w-8 h-8 rounded-full cursor-pointer"
                 width={32}
@@ -56,12 +59,14 @@ export async function UserMenu() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <form action={handleLogout}>
-                  <button type="submit">Logout</button>
-                </form>
-                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              <form action={handleLogout}>
+                <button type="submit" className="w-full">
+                  <DropdownMenuItem>
+                    Logout
+                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </button>
+              </form>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
