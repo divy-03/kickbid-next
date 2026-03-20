@@ -4,6 +4,7 @@ import { prisma } from "../prisma";
 import { addPlayerProfileSchema, AddPlayerProfileSchema, UpdateProfileSchema } from "../zod";
 import { resError, resSuccess } from "../response";
 import { getUserSession } from "../helpers";
+import { deleteFromS3, getImageUrl } from "../s3-helpers";
 
 export const getMyProfile = async () => {
   try {
@@ -19,6 +20,11 @@ export const getMyProfile = async () => {
       }
     })
     if (!user) return resError("User not found");
+
+    if (user.image) {
+      user.image = await getImageUrl(user.image);
+    }
+
     return resSuccess(user);
   } catch (error) {
     console.log(error);
@@ -41,6 +47,7 @@ export const createProfile = async (data: AddPlayerProfileSchema) => {
     if (profile) {
       return resError("Profile already exists");
     }
+    // TODO: Add Image upload in create Profile too
     const newProfile = await prisma.playerProfile.create({
       data: {
         rating: parsed.rating,
@@ -69,7 +76,18 @@ export const updateProfile = async (data: UpdateProfileSchema) => {
     const userId = session.user.id;
     const { name, image, rating, position } = data;
 
-    const res = await prisma.$transaction(async (tx) => {
+    const exsitingUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { image: true },
+    });
+
+    let oldImageKey: string | null = null;
+
+    if (image && exsitingUser?.image) {
+      oldImageKey = exsitingUser.image;
+    }
+
+    await prisma.$transaction(async (tx) => {
       if (name || image) {
         await tx.user.update({
           where: { id: userId },
@@ -89,11 +107,13 @@ export const updateProfile = async (data: UpdateProfileSchema) => {
           }
         });
       }
-
-      return true;
     });
 
-    return resSuccess("Profile updated");
+    if (oldImageKey) {
+      await deleteFromS3(oldImageKey);
+    }
+
+    return resSuccess("Profile updated Successfully");
   } catch (error) {
     console.log(error);
     return resError("Failed to update profile");
