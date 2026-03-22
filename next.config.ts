@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "ui-avatars.com",
       },
+      {
+        protocol: "https",
+        hostname: "kickbid-user-images.s3.us-east-1.amazonaws.com"
+      }
     ],
     dangerouslyAllowSVG: true,
   },
