@@ -31,7 +31,7 @@ export default function SingupPage() {
       name,
       email,
       password,
-      callbackURL: "/"
+      callbackURL: "/login"
     }, {
       onRequest: () => {
         setLoading(true);
@@ -39,6 +39,7 @@ export default function SingupPage() {
       },
       onSuccess: () => {
         if (toastId) toast.success("Singup successful", { id: toastId });
+        toast.info("Email Verification Link sent to your email");
         setLoading(false);
       },
       onError: (ctx) => {

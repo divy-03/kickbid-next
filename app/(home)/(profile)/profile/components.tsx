@@ -236,6 +236,7 @@ export function UpdateProfileDialog({ trigger, defaultValues }: UpdateProps) {
               <Input id="name" {...register("name")} />
             </Field>
 
+            {/* TODO: Add Preview for image */}
             {/* IMAGE */}
             <Field>
               <Label htmlFor="image">Image URL</Label>
